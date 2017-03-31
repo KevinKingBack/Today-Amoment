@@ -18,6 +18,7 @@
 	<script src='./scripts/controller.js'></script>
 	<script src='./scripts/directives.js'></script>
 	<!--路径等于目录吗?-->
+
 </head>
 <body ng-app='Yike'>
 	<div class="viewport">
@@ -52,7 +53,9 @@
 			<!-- 主体 -->
 			<div ng-class="{body: true, collapse: collapsed}">
 
-				<div yike-loading></div>
+				<div yike-loading>
+                    <img ng-hide="loaded" class="loading" src="./public/images/loading.gif">
+                </div>
 				<!-- 占位符，对应路由的视图会被加载到这里 -->
 				<div ng-view></div>
 

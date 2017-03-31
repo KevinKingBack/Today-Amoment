@@ -15,52 +15,66 @@ angular.module('Ctrls', [])
     }])
     //今日一刻的控制器
     .controller('TodayCtrl', ['$scope', '$http', '$filter', '$rootScope', function ($scope, $http, $filter, $rootScope) {
-
-        $rootScope.loaded=false;
-        
+        //判断加载是否完成
+        $rootScope.loaded = false;
+        //标题改变
         $rootScope.title = '今日一刻';
-        // 导航状态
+        // 导航状态 控制
         $rootScope.key = 0;
-
+        //日期显示
         var today = $filter('date')(new Date, 'yyyy-MM-dd');
-
+        //发起数据请求
         $http({
             url: './api/today.php',
             params: {today: today}
         }).then(function (res) {
+            //console.log(res.data);
+            $scope.posts = res.data.posts;
+            $scope.date = res.data.date;
+            // 加载状态（已完成）
+            $rootScope.loaded = true;
+        });
+    }])
+    //往日内容控制器
+    .controller('OlderCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+        $rootScope.loaded = false;
+        $rootScope.key = 1;
+        $rootScope.title = '往期内容';
+        var day = -1;
+        $http({
+            url: './api/older.php',
+            params: {day: day}
+        }).then(function (res) {
             console.log(res.data);
+            //将获得的数据放到模型上面
             $scope.posts = res.data.posts;
             $scope.date = res.data.date;
 
             // 加载状态（已完成）
             $rootScope.loaded = true;
-
         });
-
     }])
-    //往日内容控制器
-    .controller('OlderCtrl', ['$scope', '$http', '$rootScope', function ($scope, $http,$rootScope) {
+    //热门作者控制器
+    .controller('AuthorCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+        $rootScope.title = '热门作者';
+        $rootScope.key = 2;
+        $rootScope.loaded = false;
 
-        $rootScope.loaded=false;
-        
-        $rootScope.key = 1;
-        
-        $rootScope.title = '往期内容';
-       
-        var day = -1;
-
+        //发起请求
         $http({
-            url:'./api/older.php',
-            params:{day:day}
+            url: './api/author.php',
         }).then(function (res) {
-            console.log(res.data);
-            //将获得的数据放到模型上面
-            $scope.posts=res.data.posts;
-            $scope.date = res.data.date;
+            // console.log(res);
+            console.log(res.data.rec);
+            console.log(res.data.all);
+            $scope.rec=res.data.rec.authors;
+            $scope.all=res.data.all.authors;
 
-            // 加载状态（已完成）
-            $rootScope.loaded = true;
+            //加载结束
+            $rootScope.loaded=true;
         });
+
+
     }])
 
 

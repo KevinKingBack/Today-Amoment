@@ -10,8 +10,8 @@ Yike.config(['$routeProvider',function ($routeProvider) {
         templateUrl:'./views/older.html',
         controller:'OlderCtrl'
     }).when('/author',{
-        templateUrl:'./views/author.html'
-        // controller:''
+        templateUrl:'./views/author.html',
+        controller:'AuthorCtrl'
     }).when('/settings',{
         templateUrl:'./views/settings.html'
         // controller:''
